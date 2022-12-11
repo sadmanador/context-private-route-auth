@@ -11,7 +11,7 @@ const Header = () => {
             <NavLink className={({isActive})=> isActive ? "activeLink" : undefined} to='/register'>Register</NavLink>
             <NavLink className={({isActive})=> isActive ? "activeLink" : undefined} to='/login'>Login</NavLink>
             {user?.displayName && <span>Welcome, {user.displayName}</span>}
-            {user?.displayName ? <button onClick={userLogOut}>Sign out</button> : <Link to='/login'>sign in</Link>}
+            {user?.displayName ? <button onClick={userLogOut}>Sign out</button> : <Link to='/login'><button>Sign in</button></Link>}
         </div>
     );
 };

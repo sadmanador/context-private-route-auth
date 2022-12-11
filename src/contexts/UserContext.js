@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { app } from '../firebase/firebase.config';
 
 const auth = getAuth(app);
@@ -7,16 +7,23 @@ const auth = getAuth(app);
 export const AuthContext = createContext();
 
 const UserContext = ({ children }) => {
-    const [user, setUser] = useState({ })
+    const [user, setUser] = useState({})
 
     //creating user
     const createUser = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password)
     }
 
+    const googleProvider = new GoogleAuthProvider()
+
     //logging the user
     const signIn = (email, password) => {
         return signInWithEmailAndPassword(auth, email, password)
+    }
+
+    //signing with google
+    const googleSignIn = () => {
+        return signInWithPopup(auth, googleProvider);
     }
 
     //set userInfo into common state
@@ -29,18 +36,16 @@ const UserContext = ({ children }) => {
         return () => {
             unsubscribe();
         }
-    },[]);
+    }, []);
 
     //sign-out
     const userLogOut = () => {
         signOut(auth)
-        .then(()=>{
-            console.log('user log out')
-        })
-        .catch(error=> console.error(error))
+            .then(() => { })
+            .catch(error => console.error(error))
     }
 
-    const authInfo = { auth, user, createUser, signIn, userLogOut };
+    const authInfo = { auth, user, createUser, signIn, googleSignIn, userLogOut };
 
     return (
         <AuthContext.Provider value={authInfo}>
