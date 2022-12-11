@@ -8,6 +8,7 @@ const Header = () => {
     return (
         <div>
             <NavLink className={({isActive})=> isActive ? "activeLink" : undefined} to='/'>Home</NavLink>
+            <NavLink className={({isActive})=> isActive ? "activeLink" : undefined} to='/orders'>Orders</NavLink>
             <NavLink className={({isActive})=> isActive ? "activeLink" : undefined} to='/register'>Register</NavLink>
             <NavLink className={({isActive})=> isActive ? "activeLink" : undefined} to='/login'>Login</NavLink>
             {user?.displayName && <span>Welcome, {user.displayName}</span>}

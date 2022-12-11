@@ -8,6 +8,7 @@ export const AuthContext = createContext();
 
 const UserContext = ({ children }) => {
     const [user, setUser] = useState({})
+    const [loading, setLoading] = useState(true)
 
     //creating user
     const createUser = (email, password) => {
@@ -30,6 +31,7 @@ const UserContext = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser)
+            setLoading(false)
         })
 
         //unmount the user
@@ -45,7 +47,7 @@ const UserContext = ({ children }) => {
             .catch(error => console.error(error))
     }
 
-    const authInfo = { auth, user, createUser, signIn, googleSignIn, userLogOut };
+    const authInfo = { auth, user, createUser, signIn, googleSignIn, userLogOut, loading };
 
     return (
         <AuthContext.Provider value={authInfo}>
