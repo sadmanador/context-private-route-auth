@@ -1,10 +1,11 @@
+import { updateProfile } from 'firebase/auth';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/UserContext';
 
 const Registration = () => {
 
-    const { createUser } = useContext(AuthContext)
+    const { createUser, auth } = useContext(AuthContext)
     const handleSubmit = event => {
         event.preventDefault();
         const form = event.target;
@@ -16,12 +17,22 @@ const Registration = () => {
         createUser(email, password)
         .then(result => {
             const user = result.user;
+            updateUserInfo(username)
             console.log('Registered user', user)
         })
         .catch(error => {
             console.error(error);
         })
+    }
 
+    const updateUserInfo = (username) => {
+        updateProfile(auth.currentUser, {
+            displayName: username
+        })
+        .then(() => {
+            console.log('DisplayName updated')
+        })
+        .catch(error=>console.error(error))
     }
 
     return (
